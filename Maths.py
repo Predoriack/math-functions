@@ -363,14 +363,8 @@ def Totient(x):
     return(abs(count))
 
 def WeekDay(m,d,y):
-    months = [31,28+int(IsLeap(y)),31,30,31,30,31,31,30,31,30,31]
-    lys = 0
-    dif = y-2017
-    if y != 2017:
-        sig = int(abs(dif)/dif)
-    else:
-        sig = 1
-    for i in range(2017,y+sig,sig):
-        lys += int(IsLeap(i))
-    wd = (dif*365 + lys*sig + sum(months[:m-1]) + d -1)%7
-    return(wd)
+    isl = int(IsLeap(y))
+    months = [31,28+isl,31,30,31,30,31,31,30,31,30,31]
+    doom = 2*(1-(y//100)%4) + (y%100)//12 + int(5*((y%100)%12)/4)
+    wd = doom + sum(months[i] for i in range(m-1)) - 3 - isl + d
+    return(wd%7)
